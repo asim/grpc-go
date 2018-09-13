@@ -22,7 +22,7 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 
-	"github.com/micro/grpc-go/credentials/alts/core"
+	core "github.com/micro/grpc-go/credentials/alts/internal"
 )
 
 const (
@@ -38,8 +38,8 @@ type aes128gcm struct {
 	// inCounter is used in ALTS record to check that incoming counters are
 	// as expected, since ALTS record guarantees that messages are unwrapped
 	// in the same order that the peer wrapped them.
-	inCounter  counter
-	outCounter counter
+	inCounter  Counter
+	outCounter Counter
 	aead       cipher.AEAD
 }
 
@@ -54,8 +54,8 @@ func NewAES128GCM(side core.Side, key []byte) (ALTSRecordCrypto, error) {
 		return nil, err
 	}
 	return &aes128gcm{
-		inCounter:  newInCounter(side, overflowLenAES128GCM),
-		outCounter: newOutCounter(side, overflowLenAES128GCM),
+		inCounter:  NewInCounter(side, overflowLenAES128GCM),
+		outCounter: NewOutCounter(side, overflowLenAES128GCM),
 		aead:       a,
 	}, nil
 }

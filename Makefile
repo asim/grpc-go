@@ -1,22 +1,13 @@
-all: vet test testrace
-
-deps:
-	go get -d -v github.com/micro/grpc-go/...
-
-updatedeps:
-	go get -d -v -u -f github.com/micro/grpc-go/...
-
-testdeps:
-	go get -d -v -t github.com/micro/grpc-go/...
-
-testgaedeps:
-	goapp get -d -v -t -tags 'appengine appenginevm' github.com/micro/grpc-go/...
-
-updatetestdeps:
-	go get -d -v -t -u -f github.com/micro/grpc-go/...
+all: vet test testrace testappengine
 
 build: deps
 	go build github.com/micro/grpc-go/...
+
+clean:
+	go clean -i github.com/micro/grpc-go/...
+
+deps:
+	go get -d -v github.com/micro/grpc-go/...
 
 proto:
 	@ if ! which protoc > /dev/null; then \
@@ -25,31 +16,45 @@ proto:
 	fi
 	go generate github.com/micro/grpc-go/...
 
-vet:
-	./vet.sh
-
 test: testdeps
 	go test -cpu 1,4 -timeout 5m github.com/micro/grpc-go/...
+
+testappengine: testappenginedeps
+	goapp test -cpu 1,4 -timeout 5m github.com/micro/grpc-go/...
+
+testappenginedeps:
+	goapp get -d -v -t -tags 'appengine appenginevm' github.com/micro/grpc-go/...
+
+testdeps:
+	go get -d -v -t github.com/micro/grpc-go/...
 
 testrace: testdeps
 	go test -race -cpu 1,4 -timeout 7m github.com/micro/grpc-go/...
 
-testappengine: testgaedeps
-	goapp test -cpu 1,4 -timeout 5m github.com/micro/grpc-go/...
+updatedeps:
+	go get -d -v -u -f github.com/micro/grpc-go/...
 
-clean:
-	go clean -i github.com/micro/grpc-go/...
+updatetestdeps:
+	go get -d -v -t -u -f github.com/micro/grpc-go/...
+
+vet: vetdeps
+	./vet.sh
+
+vetdeps:
+	./vet.sh -install
 
 .PHONY: \
 	all \
-	deps \
-	updatedeps \
-	testdeps \
-	testgaedeps \
-	updatetestdeps \
 	build \
+	clean \
+	deps \
 	proto \
-	vet \
 	test \
+	testappengine \
+	testappenginedeps \
+	testdeps \
 	testrace \
-	clean
+	updatedeps \
+	updatetestdeps \
+	vet \
+	vetdeps

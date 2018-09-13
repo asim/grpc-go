@@ -24,9 +24,9 @@ import (
 	"time"
 
 	grpc "github.com/micro/grpc-go"
-	"github.com/micro/grpc-go/credentials/alts/core"
-	altspb "github.com/micro/grpc-go/credentials/alts/core/proto/grpc_gcp"
-	"github.com/micro/grpc-go/credentials/alts/core/testutil"
+	core "github.com/micro/grpc-go/credentials/alts/internal"
+	altspb "github.com/micro/grpc-go/credentials/alts/internal/proto/grpc_gcp"
+	"github.com/micro/grpc-go/credentials/alts/internal/testutil"
 	"golang.org/x/net/context"
 )
 
@@ -89,8 +89,8 @@ func (t *testRPCStream) Send(req *altspb.HandshakerReq) error {
 		}
 	} else {
 		// Add delay to test concurrent calls.
-		close := stat.Update()
-		defer close()
+		cleanup := stat.Update()
+		defer cleanup()
 		time.Sleep(t.delay)
 
 		// Generate the response to be returned by Recv() for the

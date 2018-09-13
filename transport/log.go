@@ -42,9 +42,3 @@ func errorf(format string, args ...interface{}) {
 		logger.Errorf(format, args...)
 	}
 }
-
-func fatalf(format string, args ...interface{}) {
-	if logger.V(logLevel) {
-		logger.Fatalf(format, args...)
-	}
-}

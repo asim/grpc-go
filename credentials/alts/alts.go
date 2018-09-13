@@ -31,10 +31,10 @@ import (
 	"time"
 
 	"github.com/micro/grpc-go/credentials"
-	"github.com/micro/grpc-go/credentials/alts/core"
-	"github.com/micro/grpc-go/credentials/alts/core/handshaker"
-	"github.com/micro/grpc-go/credentials/alts/core/handshaker/service"
-	altspb "github.com/micro/grpc-go/credentials/alts/core/proto/grpc_gcp"
+	core "github.com/micro/grpc-go/credentials/alts/internal"
+	"github.com/micro/grpc-go/credentials/alts/internal/handshaker"
+	"github.com/micro/grpc-go/credentials/alts/internal/handshaker/service"
+	altspb "github.com/micro/grpc-go/credentials/alts/internal/proto/grpc_gcp"
 	"github.com/micro/grpc-go/logger"
 	"golang.org/x/net/context"
 )

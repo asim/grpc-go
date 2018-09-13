@@ -22,7 +22,7 @@ import (
 	"reflect"
 	"testing"
 
-	altspb "github.com/micro/grpc-go/credentials/alts/core/proto/grpc_gcp"
+	altspb "github.com/micro/grpc-go/credentials/alts/internal/proto/grpc_gcp"
 )
 
 const (

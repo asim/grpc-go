@@ -39,6 +39,10 @@ import (
 	_ "github.com/micro/grpc-go/resolver/passthrough"
 )
 
+func pickFirstBalancerV1(r naming.Resolver) Balancer {
+	return &pickFirst{&roundRobin{r: r}}
+}
+
 type testWatcher struct {
 	// the channel to receives name resolution updates
 	update chan *naming.Update

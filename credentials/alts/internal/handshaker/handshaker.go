@@ -29,11 +29,11 @@ import (
 	grpc "github.com/micro/grpc-go"
 	"github.com/micro/grpc-go/codes"
 	"github.com/micro/grpc-go/credentials"
-	"github.com/micro/grpc-go/credentials/alts/core"
-	"github.com/micro/grpc-go/credentials/alts/core/authinfo"
-	"github.com/micro/grpc-go/credentials/alts/core/conn"
-	altsgrpc "github.com/micro/grpc-go/credentials/alts/core/proto/grpc_gcp"
-	altspb "github.com/micro/grpc-go/credentials/alts/core/proto/grpc_gcp"
+	core "github.com/micro/grpc-go/credentials/alts/internal"
+	"github.com/micro/grpc-go/credentials/alts/internal/authinfo"
+	"github.com/micro/grpc-go/credentials/alts/internal/conn"
+	altsgrpc "github.com/micro/grpc-go/credentials/alts/internal/proto/grpc_gcp"
+	altspb "github.com/micro/grpc-go/credentials/alts/internal/proto/grpc_gcp"
 	"golang.org/x/net/context"
 )
 

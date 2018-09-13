@@ -18,10 +18,17 @@
 package testdata
 
 import (
-	"log"
-	"os"
 	"path/filepath"
+	"runtime"
 )
+
+// basepath is the root directory of this package.
+var basepath string
+
+func init() {
+	_, currentFile, _, _ := runtime.Caller(0)
+	basepath = filepath.Dir(currentFile)
+}
 
 // Path returns the absolute path the given relative file or directory path,
 // relative to the github.com/micro/grpc-go/testdata directory in the user's GOPATH.
@@ -31,33 +38,5 @@ func Path(rel string) string {
 		return rel
 	}
 
-	v, err := goPackagePath("github.com/micro/grpc-go/testdata")
-	if err != nil {
-		log.Fatalf("Error finding github.com/micro/grpc-go/testdata directory: %v", err)
-	}
-
-	return filepath.Join(v, rel)
-}
-
-func goPackagePath(pkg string) (path string, err error) {
-	gp := os.Getenv("GOPATH")
-	if gp == "" {
-		return path, os.ErrNotExist
-	}
-
-	for _, p := range filepath.SplitList(gp) {
-		dir := filepath.Join(p, "src", filepath.FromSlash(pkg))
-		fi, err := os.Stat(dir)
-		if os.IsNotExist(err) {
-			continue
-		}
-		if err != nil {
-			return "", err
-		}
-		if !fi.IsDir() {
-			continue
-		}
-		return dir, nil
-	}
-	return path, os.ErrNotExist
+	return filepath.Join(basepath, rel)
 }

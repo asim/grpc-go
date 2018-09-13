@@ -1,3 +1,5 @@
+// +build tools
+
 /*
  *
  * Copyright 2018 gRPC authors.
@@ -16,7 +18,17 @@
  *
  */
 
-package grpc
+// This package exists to cause `go mod` and `go get` to believe these tools
+// are dependencies, even though they are not runtime dependencies of any grpc
+// package.  This means they will appear in our `go.mod` file, but will not be
+// a part of the build.
 
-// Version is the current grpc version.
-const Version = "1.16.0-dev"
+package tools
+
+import (
+	_ "github.com/client9/misspell/cmd/misspell"
+	_ "github.com/golang/lint/golint"
+	_ "github.com/golang/protobuf/protoc-gen-go"
+	_ "golang.org/x/tools/cmd/goimports"
+	_ "honnef.co/go/tools/cmd/staticcheck"
+)
