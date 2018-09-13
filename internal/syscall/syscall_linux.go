@@ -25,8 +25,8 @@ package syscall
 import (
 	"syscall"
 
+	"github.com/micro/grpc-go/logger"
 	"golang.org/x/sys/unix"
-	"google.golang.org/grpc/logger"
 )
 
 // GetCPUTime returns the how much CPU time has passed since the start of this process.
